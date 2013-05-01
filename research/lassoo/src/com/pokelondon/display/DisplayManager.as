@@ -20,6 +20,7 @@ package com.pokelondon.display {
         }
         //
         private function onAddedToStage():void {
+            removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
             _progressBar = new ProgressBar(175, 20);
             _progressBar.x = (stage.stageWidth  - _progressBar.width)  / 2;
             _progressBar.y = (stage.stageHeight - _progressBar.height) / 2;

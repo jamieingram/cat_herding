@@ -22,6 +22,8 @@ package com.pokelondon.application {
 	[SWF(frameRate="60", backgroundColor="#000")]
 	public class Loader extends Sprite {
         
+        public static var SCALE_FACTOR:Number;
+        //
         // Startup image for SD screens
         [Embed(source="../../../../system/startup.jpg")]
         private static var Background:Class;
@@ -29,11 +31,10 @@ package com.pokelondon.application {
         // Startup image for HD screens
         [Embed(source="../../../../system/startupHD.jpg")]
         private static var BackgroundHD:Class;
-        
+        //
 		private var _mStarling : Starling;
         private var _background : Bitmap;
         private var _assets : AssetManager;
-        private var _scaleFactor : int;
 
 		public function Loader() {
             // set general properties
@@ -53,22 +54,24 @@ package com.pokelondon.application {
             // then run on a device with a different resolution; for that case, we zoom the 
             // viewPort to the optimal size for any display and load the optimal textures.
             
+            //
             var viewPort:Rectangle = RectangleUtil.fit(
-                new Rectangle(0, 0, stageWidth, stageHeight), 
+                new Rectangle(0, 0, stageWidth, stageHeight),
                 new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight), 
                 ScaleMode.SHOW_ALL);
             
             // create the AssetManager, which handles all required assets for this resolution
-            _scaleFactor = viewPort.width < 480 ? 1 : 2; // midway between 320 and 640
+            SCALE_FACTOR = viewPort.height / stageHeight;
+            trace("stage: "+stageWidth+" x "+stageHeight);
+            trace("full stage: "+stage.fullScreenWidth+" x "+stage.fullScreenHeight);
+            trace("scale : "+SCALE_FACTOR);
             var appDir:File = File.applicationDirectory;
-            _assets = new AssetManager(_scaleFactor);
+            _assets = new AssetManager(SCALE_FACTOR);
             //
             _assets.verbose = Capabilities.isDebugger;
             //
             _assets.enqueue(
-                appDir.resolvePath("assets/audio"),
-                appDir.resolvePath(formatString("assets/fonts/{0}x", _scaleFactor)),
-                appDir.resolvePath(formatString("assets/textures/{0}x", _scaleFactor))
+                
             );
             
             // While Stage3D is initializing, the screen will be blank. To avoid any flickering, 
@@ -82,7 +85,7 @@ package com.pokelondon.application {
             // Note that we cannot embed "Default.png" (or its siblings), because any embedded
             // files will vanish from the application package, and those are picked up by the OS!
             
-            _background = _scaleFactor == 1 ? new Background() : new BackgroundHD();
+            _background = SCALE_FACTOR == 1 ? new Background() : new BackgroundHD();
             Background = BackgroundHD = null; // no longer needed!
             
             _background.x = viewPort.x;
@@ -118,7 +121,7 @@ package com.pokelondon.application {
 		private function onRootCreated(event:Object, app:Application):void {
 			_mStarling.removeEventListener(starling.events.Event.ROOT_CREATED, onRootCreated);
 	        removeChild(_background);
-	        var bgTexture:Texture = Texture.fromBitmap(_background, false, false, _scaleFactor);
+	        var bgTexture:Texture = Texture.fromBitmap(_background, false, false, SCALE_FACTOR);
 	        app.start(bgTexture, _assets);
 	        _mStarling.start();
 		}

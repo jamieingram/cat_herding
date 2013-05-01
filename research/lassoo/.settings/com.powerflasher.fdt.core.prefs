@@ -26,7 +26,7 @@ com.powerflasher.fdt.core.mobile.Android.ICON.PATH.36x36=
 com.powerflasher.fdt.core.mobile.Android.ICON.PATH.48x48=
 com.powerflasher.fdt.core.mobile.Android.ICON.PATH.72x72=
 com.powerflasher.fdt.core.mobile.Android.MOBILE.DESCRIPTOR=bin/cat_herding_lassoo-app.xml
-com.powerflasher.fdt.core.mobile.Android.PACKAGE.CONTENT=bin/cat_herding_lassoo-app.xml > cat_herding_lassoo-app.xml;bin/main.swf > main.swf;bin/assets/audio;
+com.powerflasher.fdt.core.mobile.Android.PACKAGE.CONTENT=bin/cat_herding_lassoo-app.xml > cat_herding_lassoo-app.xml;bin/main.swf > main.swf;
 com.powerflasher.fdt.core.mobile.Android.SIGNATURE.CERTIFICATE=system/cert.p12
 com.powerflasher.fdt.core.mobile.Android.SIGNATURE.PWD=iDR8Sha057o\=
 com.powerflasher.fdt.core.mobile.Android.SIGNATURE.REMEMBER.PWD=true

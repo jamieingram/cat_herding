@@ -7,6 +7,7 @@ package com.pokelondon.application {
     import com.pokelondon.display.DisplayManager;
     
     public class Application extends Sprite {
+        private static var _INITIAL_ID:String = "game/1/1";
         private static var _INSTANCE:Application;
         private static var _ASSETS:AssetManager;
         
@@ -39,7 +40,8 @@ package com.pokelondon.application {
             addChild(_displayManager);
             _displayManager.showLoader();
             //
-            assets.loadQueue(onProgress);
+            //assets.loadQueue(onProgress);
+            onInitialLoadComplete();
         }
         //
         private function onProgress(ratio:Number):void {
@@ -49,13 +51,13 @@ package com.pokelondon.application {
             // so we show the main menu only after a short delay. 
                 
             if (ratio == 1) {
-            	Starling.juggler.delayCall(onDelayComplete, 0.15);
+            	Starling.juggler.delayCall(onInitialLoadComplete, 0.15);
             }
     	}
         //
-        private function onDelayComplete():void {
+        private function onInitialLoadComplete():void {
             _displayManager.hideLoader();
-            navigateTo("menu");
+            navigateTo(_INITIAL_ID);
         }
         //
         public function navigateTo($navigateTo_str:String):void {
